@@ -162,58 +162,182 @@
       line-height: 1.5;
     }
     .orbit {
+      position: relative;
+      height: 320px;
       display: grid;
       place-items: center;
-      position: relative;
+      perspective: 1100px;
+      perspective-origin: 50% 45%;
       min-height: 320px;
     }
-    .orbit::before {
-      content: "";
-      position: absolute;
-      width: min(300px, 78%);
-      aspect-ratio: 1;
-      border-radius: 50%;
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      animation: spin 28s linear infinite;
+    .orbit::before,
+    .orbit::after { display: none; }
+    .orbit-scene {
+      width: min(280px, 100%);
+      height: 280px;
+      transform-style: preserve-3d;
+      display: grid;
+      place-items: center;
     }
-    .orbit::after {
-      content: "";
-      position: absolute;
-      width: min(220px, 58%);
-      aspect-ratio: 1;
-      border-radius: 50%;
-      border: 1px dashed rgba(37, 99, 235, 0.28);
-      animation: spin 18s linear infinite reverse;
+    .orbit-card {
+      width: 240px;
+      height: 240px;
+      transform-style: preserve-3d;
     }
-    .orbit-logo {
+    .orbit-card-face {
       position: relative;
-      z-index: 1;
-      width: min(220px, 70%);
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      background:
+        radial-gradient(ellipse at 50% 38%, rgba(56, 189, 248, 0.18), transparent 55%),
+        radial-gradient(ellipse at 50% 70%, rgba(168, 85, 247, 0.22), transparent 50%),
+        linear-gradient(160deg, #0b0f1a 0%, #05070d 55%, #0a0614 100%);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      box-shadow:
+        0 0 42px rgba(168, 85, 247, 0.38),
+        0 0 28px rgba(56, 189, 248, 0.28),
+        0 22px 48px rgba(15, 23, 42, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      transform: translateZ(18px);
+      display: grid;
+      place-items: center;
+    }
+    .orbit-card-face::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 16px;
+      border: 1px solid rgba(56, 189, 248, 0.12);
+      pointer-events: none;
+    }
+    .globe-wire {
+      position: absolute;
+      width: 168px;
+      height: 168px;
+      top: 28px;
+      left: 50%;
+      margin-left: -84px;
+      opacity: 0.85;
+      filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.45));
+      animation: globe-spin 18s linear infinite;
+      transform-origin: 50% 50%;
+    }
+    @keyframes globe-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .orbit-ring {
+      position: absolute;
+      width: 200px;
+      height: 72px;
+      top: 88px;
+      left: 50%;
+      margin-left: -100px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: rgba(232, 121, 249, 0.95);
+      border-bottom-color: rgba(192, 132, 252, 0.35);
+      box-shadow:
+        0 0 18px rgba(232, 121, 249, 0.75),
+        0 0 36px rgba(168, 85, 247, 0.35);
+      transform: rotateX(68deg) translateZ(8px);
+      animation: ring-pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes ring-pulse {
+      0%, 100% { opacity: 0.75; filter: brightness(1); }
+      50% { opacity: 1; filter: brightness(1.25); }
+    }
+    .letter-a {
+      position: relative;
+      z-index: 2;
+      width: 128px;
+      height: 128px;
+      margin-top: -18px;
+      animation: letter-glow 2.4s ease-in-out infinite;
+    }
+    .letter-a path { stroke-linejoin: round; stroke-linecap: round; }
+    .letter-a .a-outer {
+      fill: none;
+      stroke: #7dd3fc;
+      stroke-width: 5;
+      stroke-dasharray: 420;
+      stroke-dashoffset: 0;
+      animation: letter-draw 3.6s ease-in-out infinite;
+    }
+    .letter-a .a-inner {
+      fill: none;
+      stroke: #38bdf8;
+      stroke-width: 2.2;
+      opacity: 0.95;
+    }
+    @keyframes letter-glow {
+      0%, 100% {
+        filter:
+          drop-shadow(0 0 6px rgba(56, 189, 248, 0.55))
+          drop-shadow(0 0 14px rgba(14, 165, 233, 0.35));
+        transform: scale(1);
+      }
+      50% {
+        filter:
+          drop-shadow(0 0 14px rgba(125, 211, 252, 1))
+          drop-shadow(0 0 28px rgba(56, 189, 248, 0.95))
+          drop-shadow(0 0 48px rgba(14, 165, 233, 0.65));
+        transform: scale(1.04);
+      }
+    }
+    @keyframes letter-draw {
+      0% { stroke-dashoffset: 420; opacity: 0.55; }
+      35% { stroke-dashoffset: 0; opacity: 1; }
+      70% { stroke-dashoffset: 0; opacity: 1; }
+      100% { stroke-dashoffset: -420; opacity: 0.55; }
+    }
+    .brand-3d {
+      position: absolute;
+      bottom: 28px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.08em;
+      color: #e879f9;
+      text-shadow:
+        0 0 10px rgba(232, 121, 249, 0.95),
+        0 0 24px rgba(168, 85, 247, 0.65),
+        0 0 2px rgba(255, 255, 255, 0.4);
+      z-index: 3;
+    }
+    .orbit-glow {
+      position: absolute;
+      width: 70%;
+      height: 40%;
+      bottom: 8%;
+      left: 15%;
+      background: radial-gradient(ellipse, rgba(168, 85, 247, 0.35), transparent 70%);
+      filter: blur(16px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orbit-logo-fallback {
+      display: none;
+      width: min(240px, 70%);
       aspect-ratio: 1;
       object-fit: cover;
       border-radius: 22px;
       border: 1px solid rgba(148, 163, 184, 0.22);
       background: #05070d;
       box-shadow:
-        0 0 36px rgba(56, 189, 248, 0.32),
-        0 18px 40px rgba(15, 23, 42, 0.28);
+        0 0 42px rgba(168, 85, 247, 0.38),
+        0 0 28px rgba(56, 189, 248, 0.28),
+        0 22px 48px rgba(15, 23, 42, 0.35);
     }
-    .orbit-logo--static { display: none; }
-    .orbit-logo--dynamic { display: block; animation: float 5.5s ease-in-out infinite; }
-    /* Mobile / narrow: keep static logo (lighter). Desktop: animated SVG. */
-    @media (max-width: 820px) {
-      .orbit-logo--dynamic { display: none; }
-      .orbit-logo--static { display: block; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .orbit-logo--dynamic { display: none; animation: none; }
-      .orbit-logo--static { display: block; }
-      .orbit::before, .orbit::after { animation: none; }
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+    @media (max-width: 820px), (prefers-reduced-motion: reduce) {
+      .orbit-scene { display: none; }
+      .orbit-logo-fallback { display: block; }
+      .globe-wire, .orbit-ring, .letter-a { animation: none; }
     }
     .hint {
       margin-top: 22px;
@@ -277,8 +401,35 @@
         </div>
       </div>
       <div class="orbit" aria-hidden="true">
-        <img class="orbit-logo orbit-logo--dynamic" src="./logo-ai-global-dynamic.svg" alt="" width="220" height="220" />
-        <img class="orbit-logo orbit-logo--static" src="./logo-ai-global.png" alt="" width="220" height="220" />
+        <div class="orbit-scene">
+          <div class="orbit-card">
+            <div class="orbit-card-face">
+              <div class="orbit-glow"></div>
+              <svg class="globe-wire" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="wireGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.95" />
+                    <stop offset="100%" stop-color="#818cf8" stop-opacity="0.55" />
+                  </linearGradient>
+                </defs>
+                <circle cx="100" cy="100" r="78" fill="none" stroke="url(#wireGrad)" stroke-width="1.4" />
+                <ellipse cx="100" cy="100" rx="78" ry="28" fill="none" stroke="url(#wireGrad)" stroke-width="1" opacity="0.75" />
+                <ellipse cx="100" cy="100" rx="78" ry="52" fill="none" stroke="url(#wireGrad)" stroke-width="1" opacity="0.55" />
+                <ellipse cx="100" cy="100" rx="28" ry="78" fill="none" stroke="url(#wireGrad)" stroke-width="1" opacity="0.75" />
+                <ellipse cx="100" cy="100" rx="52" ry="78" fill="none" stroke="url(#wireGrad)" stroke-width="1" opacity="0.55" />
+                <line x1="22" y1="100" x2="178" y2="100" stroke="url(#wireGrad)" stroke-width="1" opacity="0.65" />
+                <line x1="100" y1="22" x2="100" y2="178" stroke="url(#wireGrad)" stroke-width="1" opacity="0.65" />
+              </svg>
+              <div class="orbit-ring"></div>
+              <svg class="letter-a" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <path class="a-outer" d="M60 14 L104 106 H86 L76 82 H44 L34 106 H16 Z M52 62 H68 L60 42 Z" />
+                <path class="a-inner" d="M60 18 L98 102 H84 L75 80 H45 L36 102 H22 Z M53 60 H67 L60 44 Z" />
+              </svg>
+              <div class="brand-3d">AI Global</div>
+            </div>
+          </div>
+        </div>
+        <img class="orbit-logo-fallback" src="./logo-ai-global.png" alt="" width="240" height="240" />
       </div>
     </div>
   </div>
