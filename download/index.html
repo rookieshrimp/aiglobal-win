@@ -197,7 +197,18 @@
       box-shadow:
         0 0 36px rgba(56, 189, 248, 0.32),
         0 18px 40px rgba(15, 23, 42, 0.28);
-      animation: float 5.5s ease-in-out infinite;
+    }
+    .orbit-logo--static { display: none; }
+    .orbit-logo--dynamic { display: block; animation: float 5.5s ease-in-out infinite; }
+    /* Mobile / narrow: keep static logo (lighter). Desktop: animated SVG. */
+    @media (max-width: 820px) {
+      .orbit-logo--dynamic { display: none; }
+      .orbit-logo--static { display: block; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .orbit-logo--dynamic { display: none; animation: none; }
+      .orbit-logo--static { display: block; }
+      .orbit::before, .orbit::after { animation: none; }
     }
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes float {
@@ -266,7 +277,8 @@
         </div>
       </div>
       <div class="orbit" aria-hidden="true">
-        <img class="orbit-logo" src="./logo-ai-global.png" alt="" />
+        <img class="orbit-logo orbit-logo--dynamic" src="./logo-ai-global-dynamic.svg" alt="" width="220" height="220" />
+        <img class="orbit-logo orbit-logo--static" src="./logo-ai-global.png" alt="" width="220" height="220" />
       </div>
     </div>
   </div>
