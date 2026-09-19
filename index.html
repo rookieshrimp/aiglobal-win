@@ -107,14 +107,116 @@
   }
 
   .logo-mark {
-    width: 26px;
-    height: 26px;
-    border-radius: 7px;
-    object-fit: cover;
-    border: 1px solid rgba(0, 212, 255, 0.45);
-    box-shadow: 0 0 10px rgba(0,212,255,0.35);
-    background: #05070d;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     flex-shrink: 0;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    background:
+      radial-gradient(ellipse at 50% 38%, rgba(56, 189, 248, 0.22), transparent 55%),
+      radial-gradient(ellipse at 50% 70%, rgba(168, 85, 247, 0.28), transparent 50%),
+      linear-gradient(160deg, #0b0f1a 0%, #05070d 55%, #0a0614 100%);
+    box-shadow:
+      0 0 12px rgba(168, 85, 247, 0.4),
+      0 0 8px rgba(56, 189, 248, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+  .logo-mark .orbit-glow {
+    position: absolute;
+    width: 70%;
+    height: 40%;
+    bottom: 4%;
+    left: 15%;
+    background: radial-gradient(ellipse, rgba(168, 85, 247, 0.4), transparent 70%);
+    filter: blur(4px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .logo-mark .globe-wire {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 3px;
+    left: 50%;
+    margin-left: -12px;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.5));
+    animation: logo-globe-spin 18s linear infinite;
+    transform-origin: 50% 50%;
+    z-index: 1;
+  }
+  .logo-mark .orbit-ring {
+    position: absolute;
+    width: 28px;
+    height: 10px;
+    top: 12px;
+    left: 50%;
+    margin-left: -14px;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    border-top-color: rgba(232, 121, 249, 0.95);
+    border-bottom-color: rgba(192, 132, 252, 0.35);
+    box-shadow: 0 0 6px rgba(232, 121, 249, 0.7);
+    transform: rotateX(68deg);
+    animation: logo-ring-pulse 2.8s ease-in-out infinite;
+    z-index: 1;
+  }
+  .logo-mark .letter-a {
+    position: relative;
+    z-index: 2;
+    width: 18px;
+    height: 18px;
+    margin-top: -2px;
+    animation: logo-letter-glow 2.4s ease-in-out infinite;
+  }
+  .logo-mark .letter-a path { stroke-linejoin: round; stroke-linecap: round; }
+  .logo-mark .letter-a .a-outer {
+    fill: none;
+    stroke: #7dd3fc;
+    stroke-width: 5;
+    stroke-dasharray: 420;
+    stroke-dashoffset: 0;
+    animation: logo-letter-draw 3.6s ease-in-out infinite;
+  }
+  .logo-mark .letter-a .a-inner {
+    fill: none;
+    stroke: #38bdf8;
+    stroke-width: 2.2;
+    opacity: 0.95;
+  }
+  @keyframes logo-globe-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes logo-ring-pulse {
+    0%, 100% { opacity: 0.75; filter: brightness(1); }
+    50% { opacity: 1; filter: brightness(1.25); }
+  }
+  @keyframes logo-letter-glow {
+    0%, 100% {
+      filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.55)) drop-shadow(0 0 4px rgba(14, 165, 233, 0.35));
+      transform: scale(1);
+    }
+    50% {
+      filter: drop-shadow(0 0 4px rgba(125, 211, 252, 1)) drop-shadow(0 0 8px rgba(56, 189, 248, 0.95));
+      transform: scale(1.05);
+    }
+  }
+  @keyframes logo-letter-draw {
+    0% { stroke-dashoffset: 420; opacity: 0.55; }
+    35% { stroke-dashoffset: 0; opacity: 1; }
+    70% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: -420; opacity: 0.55; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo-mark .globe-wire,
+    .logo-mark .orbit-ring,
+    .logo-mark .letter-a,
+    .logo-mark .letter-a .a-outer { animation: none; }
   }
 
   .nav-links {
@@ -1458,7 +1560,29 @@
   
   <nav>
     <a class="logo" href="/">
-      <img class="logo-mark" src="/download/logo-ai-global.png" width="26" height="26" alt="AI Global" />
+      <span class="logo-mark" aria-hidden="true">
+        <span class="orbit-glow"></span>
+        <svg class="globe-wire" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="navWireGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.95" />
+              <stop offset="100%" stop-color="#818cf8" stop-opacity="0.55" />
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="78" fill="none" stroke="url(#navWireGrad)" stroke-width="1.4" />
+          <ellipse cx="100" cy="100" rx="78" ry="28" fill="none" stroke="url(#navWireGrad)" stroke-width="1" opacity="0.75" />
+          <ellipse cx="100" cy="100" rx="78" ry="52" fill="none" stroke="url(#navWireGrad)" stroke-width="1" opacity="0.55" />
+          <ellipse cx="100" cy="100" rx="28" ry="78" fill="none" stroke="url(#navWireGrad)" stroke-width="1" opacity="0.75" />
+          <ellipse cx="100" cy="100" rx="52" ry="78" fill="none" stroke="url(#navWireGrad)" stroke-width="1" opacity="0.55" />
+          <line x1="22" y1="100" x2="178" y2="100" stroke="url(#navWireGrad)" stroke-width="1" opacity="0.65" />
+          <line x1="100" y1="22" x2="100" y2="178" stroke="url(#navWireGrad)" stroke-width="1" opacity="0.65" />
+        </svg>
+        <span class="orbit-ring"></span>
+        <svg class="letter-a" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <path class="a-outer" d="M60 14 L104 106 H86 L76 82 H44 L34 106 H16 Z M52 62 H68 L60 42 Z" />
+          <path class="a-inner" d="M60 18 L98 102 H84 L75 80 H45 L36 102 H22 Z M53 60 H67 L60 44 Z" />
+        </svg>
+      </span>
       <span>AI Global</span>
     </a>
     <div class="nav-links">
