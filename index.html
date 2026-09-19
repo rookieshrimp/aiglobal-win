@@ -1872,6 +1872,8 @@
 </div>
 
 <script>
+(function () {
+
   //
   const canvas = document.getElementById('bgCanvas');
   if (!canvas) return;
@@ -2158,20 +2160,20 @@
     }
   }
 
-  const chart1 = new RealTimeChart('chart1', '#00d4ff', 100);
-  const chart2 = new RealTimeChart('chart2', '#00ffb7', 100);
-  [100, 400, 1000].forEach(ms => setTimeout(() => { chart1.resize(); chart2.resize(); chart1.draw(); chart2.draw(); }, ms));
+  const throughputChart = new RealTimeChart('chart1', '#00d4ff', 100);
+  const loadChart = new RealTimeChart('chart2', '#00ffb7', 100);
+  [100, 400, 1000].forEach(ms => setTimeout(() => { throughputChart.resize(); loadChart.resize(); throughputChart.draw(); loadChart.draw(); }, ms));
 
   function updateCharts() {
-    chart1.resize();
-    chart2.resize();
-    chart1.update();
-    chart2.update();
-    chart1.draw();
-    chart2.draw();
+    throughputChart.resize();
+    loadChart.resize();
+    throughputChart.update();
+    loadChart.update();
+    throughputChart.draw();
+    loadChart.draw();
 
-    const s1 = chart1.getStats();
-    const s2 = chart2.getStats();
+    const s1 = throughputChart.getStats();
+    const s2 = loadChart.getStats();
     document.getElementById('chart1-peak').textContent = s1.peak.toFixed(1);
     document.getElementById('chart1-avg').textContent = s1.avg.toFixed(1);
     document.getElementById('chart1-current').textContent = s1.current.toFixed(1);
@@ -2585,7 +2587,7 @@
       currentThemeColor = theme.color;
     });
   });
-
+})();
 </script>
 
 </body>
