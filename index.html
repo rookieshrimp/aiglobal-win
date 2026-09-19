@@ -1872,7 +1872,9 @@
 <script>
   //
   const canvas = document.getElementById('bgCanvas');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
+  if (!ctx) return;
 
   //
   let explosionParticles = [];
@@ -2048,7 +2050,9 @@
   class RealTimeChart {
     constructor(canvasId, color, maxVal) {
       this.canvas = document.getElementById(canvasId);
+      if (!this.canvas) return;
       this.ctx = this.canvas.getContext('2d');
+      if (!this.ctx) return;
       this.color = color;
       this.maxVal = maxVal;
       this.data = [];
@@ -2080,6 +2084,7 @@
     }
 
     draw() {
+      if (!this.ctx) return;
       const ctx = this.ctx;
       ctx.clearRect(0, 0, this.width, this.height);
 
