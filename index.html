@@ -1029,14 +1029,13 @@
 
   /* */
   .fade-in {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s, transform 0.8s;
+    opacity: 1;
+    transform: none;
   }
 
   .fade-in.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
   @media (prefers-reduced-motion: reduce) {
     .fade-in { opacity: 1; transform: none; transition: none; }
@@ -2320,6 +2319,10 @@
     });
   }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
 
+    const revealAllFade = () => fadeElements.forEach(revealFade);
+  window.addEventListener('scroll', revealAllFade, { passive: true });
+  window.addEventListener('load', revealAllFade);
+  revealAllFade();
   fadeElements.forEach(el => {
     observer.observe(el);
     const rect = el.getBoundingClientRect();
