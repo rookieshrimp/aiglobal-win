@@ -178,12 +178,12 @@
     display: grid;
     grid-template-columns: 1fr 440px;
     gap: 80px;
-    min-height: 82vh;
+    min-height: auto;
     align-items: center;
     padding: 40px 0 60px;
   }
   @media (max-width: 980px) {
-    .hero { grid-template-columns: 1fr; gap: 36px; min-height: auto; }
+    .hero { grid-template-columns: 1fr; gap: 36px; min-height: auto; padding-top: 24px; }
     .hero-left h1 { font-size: 42px !important; }
     .nav-links { display: none; }
     .container { padding: 0 20px; }
@@ -1037,6 +1037,9 @@
   .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in { opacity: 1; transform: none; transition: none; }
   }
 
   /* */
@@ -2310,15 +2313,18 @@
 
   //
   const fadeElements = document.querySelectorAll('.fade-in');
+  const revealFade = (el) => el.classList.add('visible');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) revealFade(entry.target);
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
 
-  fadeElements.forEach(el => observer.observe(el));
+  fadeElements.forEach(el => {
+    observer.observe(el);
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.95 && rect.bottom > 0) revealFade(el);
+  });
 
   //
   let scrollY = 0;
